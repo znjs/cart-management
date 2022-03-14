@@ -5,3 +5,33 @@
   color: whitesmoke;
   min-height: 100vh;
 }
+
+.fa-star.fa-solid {
+  text-shadow: 0 0 1px black;
+}
+
+.brd-hov:hover {
+  box-shadow: 0 0 1rem grey;
+}
+
+.img-res,
+.img-res-ht {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.img-res-wd {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-center {
+  display: grid;
+  place-items: center;
+}
+
+.min-h-12 {
+  min-height: 12rem;
+}
