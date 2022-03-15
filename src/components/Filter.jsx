@@ -2,20 +2,36 @@ import React, { useState } from "react";
 import tw from "tailwind-styled-components";
 import { HR_STYLE, FILTER_CATEGORIES } from "./index";
 import { nanoid } from "nanoid";
+import { useFilter } from "../context";
 function Filter() {
   const [price, setPrice] = useState("6000");
+  const { dispatch } = useFilter();
   return (
     <Wrapper>
       <Title>
         <Header>Filter</Header>
-        <ClearFilter>clear filter</ClearFilter>
+        <ClearFilter
+          onClick={() => {
+            dispatch({ type: "RESET" });
+          }}
+        >
+          clear filter
+        </ClearFilter>
       </Title>
       <Ruler style={HR_STYLE} />
       <Container>
         <Header>Rating</Header>
         {[4, 3, 2, 1].map((ele) => (
           <Item key={nanoid()}>
-            <Radio type="radio" id={ele} name="rating" value={ele} />
+            <Radio
+              type="radio"
+              id={ele}
+              name="rating"
+              value=""
+              onClick={() =>
+                dispatch({ type: "RATING_FILTER", payload: { rating: ele } })
+              }
+            />
             <Label htmlFor={ele}>
               {[1, 2, 3, 4, 5].map((count) =>
                 count > ele ? (
@@ -55,7 +71,12 @@ function Filter() {
           value={price}
           step="20"
           onChange={(e) => setPrice(e.target.value)}
-          onMouseUp={(e) => console.log(price)}
+          onMouseUp={(e) => {
+            dispatch({
+              type: "PRICE_FILTER",
+              payload: { price: e.target.value },
+            });
+          }}
         />
       </Container>
       <Ruler style={HR_STYLE} />
@@ -67,6 +88,9 @@ function Filter() {
             id="low-to-high"
             name="price-sorting"
             value="low-to-high"
+            onClick={() => {
+              dispatch({ type: "SORT_PRICE_ASC", payload: { sort_asc: true } });
+            }}
           />
           <Label htmlFor="low-to-high">price low-to-high</Label>
         </Item>
@@ -76,6 +100,12 @@ function Filter() {
             id="high-to-low"
             name="price-sorting"
             value="high-to-low"
+            onClick={() => {
+              dispatch({
+                type: "SORT_PRICE_ASC",
+                payload: { sort_asc: false },
+              });
+            }}
           />
           <Label htmlFor="high-to-low">price high-to-low</Label>
         </Item>
@@ -83,7 +113,7 @@ function Filter() {
     </Wrapper>
   );
 }
-const Wrapper = tw.div`w-72 bg-gray-100 text-gray-900 p-4 my-5 h-full sticky top-4 left-0`;
+const Wrapper = tw.div`overflow-auto w-72 bg-gray-100 text-gray-900 p-4 my-5 h-full sticky top-4 left-0 `;
 const Title = tw.div`flex justify-between p-2`;
 const Header = tw.h3``;
 const ClearFilter = tw.a`cursor-pointer text-blue-600 underline`;
