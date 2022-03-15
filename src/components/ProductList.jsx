@@ -5,13 +5,16 @@ import { Product } from "./Product";
 import { useFilter } from "../context";
 function ProductList() {
   const { productsState } = useFilter();
-  console.log(productsState);
+  // console.log(productsState);
   return (
-    <Wrapper>
-      {[...Array(productsState.length)].map((ele, index) => (
-        <Product key={nanoid()} product={productsState[index]} />
-      ))}
-    </Wrapper>
+    <>
+      <h1>{productsState.products.length}</h1>
+      <Wrapper>
+        {[...Array(productsState.products.length)].map((ele, index) => (
+          <Product key={nanoid()} product={productsState.products[index]} />
+        ))}
+      </Wrapper>
+    </>
   );
 }
 const Wrapper = tw.div`w-full m-5 flex flex-row flex-wrap`;

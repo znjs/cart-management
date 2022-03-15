@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
-import { HR_STYLE, FILTER_CATEGORIES } from "./index";
+import { HR_STYLE, FILTER_CATEGORIES, RATING_FILTER } from "./index";
 import { nanoid } from "nanoid";
 import { useFilter } from "../context";
 function Filter() {
   const [price, setPrice] = useState("6000");
-  const { dispatch } = useFilter();
+  const { dispatch, productsState } = useFilter();
   return (
     <Wrapper>
       <Title>
@@ -28,8 +28,9 @@ function Filter() {
               id={ele}
               name="rating"
               value=""
-              onClick={() =>
-                dispatch({ type: "RATING_FILTER", payload: { rating: ele } })
+              checked={productsState.rating === ele}
+              onChange={() =>
+                dispatch({ type: RATING_FILTER, payload: { rating: ele } })
               }
             />
             <Label htmlFor={ele}>
@@ -50,7 +51,19 @@ function Filter() {
         <Header>Category</Header>
         {FILTER_CATEGORIES.map((ele) => (
           <Item key={nanoid()}>
-            <Checkbox type="checkbox" id={ele} name="categories" value={ele} />
+            <Checkbox
+              type="checkbox"
+              id={ele}
+              name="categories"
+              value={ele}
+              // checked={productsState.category.includes(ele.toLowerCase())}
+              // onChange={() => {
+              //   dispatch({
+              //     type: "CATEGORY_FILTER",
+              //     payload: { checked: ele },
+              //   });
+              // }}
+            />
             <Label htmlFor={ele}>{ele}</Label>
           </Item>
         ))}
@@ -71,12 +84,12 @@ function Filter() {
           value={price}
           step="20"
           onChange={(e) => setPrice(e.target.value)}
-          onMouseUp={(e) => {
-            dispatch({
-              type: "PRICE_FILTER",
-              payload: { price: e.target.value },
-            });
-          }}
+          // onMouseUp={(e) => {
+          //   dispatch({
+          //     type: "PRICE_FILTER",
+          //     payload: { price: e.target.value },
+          //   });
+          // }}
         />
       </Container>
       <Ruler style={HR_STYLE} />
@@ -88,9 +101,9 @@ function Filter() {
             id="low-to-high"
             name="price-sorting"
             value="low-to-high"
-            onClick={() => {
-              dispatch({ type: "SORT_PRICE_ASC", payload: { sort_asc: true } });
-            }}
+            // onClick={() => {
+            //   dispatch({ type: "SORT_PRICE_ASC", payload: { sort_asc: true } });
+            // }}
           />
           <Label htmlFor="low-to-high">price low-to-high</Label>
         </Item>
@@ -100,12 +113,12 @@ function Filter() {
             id="high-to-low"
             name="price-sorting"
             value="high-to-low"
-            onClick={() => {
-              dispatch({
-                type: "SORT_PRICE_ASC",
-                payload: { sort_asc: false },
-              });
-            }}
+            // onClick={() => {
+            //   dispatch({
+            //     type: "SORT_PRICE_ASC",
+            //     payload: { sort_asc: false },
+            //   });
+            // }}
           />
           <Label htmlFor="high-to-low">price high-to-low</Label>
         </Item>

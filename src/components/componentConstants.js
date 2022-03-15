@@ -5,12 +5,6 @@ const HR_STYLE = {
   marginInline: "auto",
 };
 
-const FILTER_CATEGORIES = [
-  "Clothing",
-  "Tree Decorations",
-  "Gifts",
-  "Caps",
-  "Sweaters",
-];
-
-export { HR_STYLE, FILTER_CATEGORIES };
+const FILTER_CATEGORIES = ["Clothing", "Decoration", "Gift", "Caps", "Sweater"];
+const RATING_FILTER = "RATING_FILTER";
+export { HR_STYLE, FILTER_CATEGORIES, RATING_FILTER };

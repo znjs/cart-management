@@ -1,50 +1,36 @@
 import { data } from "../components";
 import { createContext, useContext, useReducer, useState } from "react";
-
+import { RATING_FILTER } from "../components";
 const FilterContext = createContext();
 
 const FilterProvider = ({ children }) => {
-  const products = [...data.products];
   const intialState = {
-    star: null,
+    rating: null,
     category: [],
     maxPrice: 6000,
     sortOrder: null,
+    products: [...data.products],
   };
   const filterReducer = (productsState, action) => {
+    let productsStateCopy = { ...productsState };
     switch (action.type) {
-      case "RATING_FILTER":
-        console.log(action.payload.rating);
-        return [
-          ...products.filter((item) => item.rating >= action.payload.rating),
-        ];
-      case "PRICE_FILTER":
-        return [
-          ...products.filter(
-            (item) => item.sellingPrice <= action.payload.price
-          ),
-        ];
-      case "SORT_PRICE_ASC":
-        if (action.payload.sort_asc) {
-          return [
-            ...[...products].sort((item1, item2) => {
-              return item1.sellingPrice - item2.sellingPrice;
-            }),
-          ];
-        } else {
-          return [
-            ...[...products].sort((item1, item2) => {
-              return item2.sellingPrice - item1.sellingPrice;
-            }),
-          ];
-        }
-      case "RESET":
-        return [...products];
+      case RATING_FILTER:
+        productsStateCopy.rating = action.payload.rating;
+        productsStateCopy = {
+          ...productsStateCopy,
+          products: [
+            ...productsStateCopy.products.filter(
+              (item) => item.rating >= productsStateCopy.rating
+            ),
+          ],
+        };
+        break;
       default:
-        return [...productsState];
+        break;
     }
+    return { ...productsStateCopy };
   };
-  const [productsState, dispatch] = useReducer(filterReducer, products);
+  const [productsState, dispatch] = useReducer(filterReducer, intialState);
   return (
     <FilterContext.Provider value={{ productsState, dispatch }}>
       {children}
