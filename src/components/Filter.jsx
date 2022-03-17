@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
-import { HR_STYLE, FILTER_CATEGORIES, RATING_FILTER } from "./index";
+import {
+  HR_STYLE,
+  FILTER_CATEGORIES,
+  RATING_FILTER,
+  CATEGORY_FILTER,
+  PRICE_FILTER,
+  CLEAR_FILTER,
+  SORT_PRICE_ASC_FILTER,
+} from "./index";
 import { nanoid } from "nanoid";
 import { useFilter } from "../context";
 function Filter() {
@@ -12,7 +20,8 @@ function Filter() {
         <Header>Filter</Header>
         <ClearFilter
           onClick={() => {
-            dispatch({ type: "RESET" });
+            dispatch({ type: CLEAR_FILTER });
+            setPrice(6000);
           }}
         >
           clear filter
@@ -56,13 +65,13 @@ function Filter() {
               id={ele}
               name="categories"
               value={ele}
-              // checked={productsState.category.includes(ele.toLowerCase())}
-              // onChange={() => {
-              //   dispatch({
-              //     type: "CATEGORY_FILTER",
-              //     payload: { checked: ele },
-              //   });
-              // }}
+              checked={productsState.category.includes(ele.toLowerCase())}
+              onChange={() => {
+                dispatch({
+                  type: CATEGORY_FILTER,
+                  payload: { checked: ele },
+                });
+              }}
             />
             <Label htmlFor={ele}>{ele}</Label>
           </Item>
@@ -84,12 +93,12 @@ function Filter() {
           value={price}
           step="20"
           onChange={(e) => setPrice(e.target.value)}
-          // onMouseUp={(e) => {
-          //   dispatch({
-          //     type: "PRICE_FILTER",
-          //     payload: { price: e.target.value },
-          //   });
-          // }}
+          onMouseUp={(e) => {
+            dispatch({
+              type: PRICE_FILTER,
+              payload: { price: e.target.value },
+            });
+          }}
         />
       </Container>
       <Ruler style={HR_STYLE} />
@@ -101,9 +110,13 @@ function Filter() {
             id="low-to-high"
             name="price-sorting"
             value="low-to-high"
-            // onClick={() => {
-            //   dispatch({ type: "SORT_PRICE_ASC", payload: { sort_asc: true } });
-            // }}
+            checked={productsState.sortOrder === 1}
+            onChange={() => {
+              dispatch({
+                type: SORT_PRICE_ASC_FILTER,
+                payload: { sortOrder: 1 },
+              });
+            }}
           />
           <Label htmlFor="low-to-high">price low-to-high</Label>
         </Item>
@@ -113,12 +126,13 @@ function Filter() {
             id="high-to-low"
             name="price-sorting"
             value="high-to-low"
-            // onClick={() => {
-            //   dispatch({
-            //     type: "SORT_PRICE_ASC",
-            //     payload: { sort_asc: false },
-            //   });
-            // }}
+            checked={productsState.sortOrder === 2}
+            onChange={() => {
+              dispatch({
+                type: SORT_PRICE_ASC_FILTER,
+                payload: { sortOrder: 2 },
+              });
+            }}
           />
           <Label htmlFor="high-to-low">price high-to-low</Label>
         </Item>

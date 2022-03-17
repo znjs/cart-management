@@ -7,8 +7,8 @@ const data = {
     return {
       _id: nanoid(),
       itemName: faker.commerce.product(),
-      costPrice: faker.commerce.price(200, 6000, 2),
-      sellingPrice: faker.commerce.price(200, 6000, 2),
+      costPrice: faker.commerce.price(200, 5999, 2),
+      sellingPrice: faker.commerce.price(200, 5999, 2),
       rating: faker.datatype.float({
         min: 1,
         max: 5,
