@@ -14,7 +14,8 @@ const data = {
         max: 5,
         precision: 0.1,
       }),
-      itemDesc: faker.commerce.productDescription(),
+      itemDesc:
+        "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ",
       imageUrl: `https://picsum.photos/200/300?random=${index}`,
       altText: "Item Image",
       wishlisted: false,

@@ -129,7 +129,7 @@ const FilterProvider = ({ children }) => {
         ...productsStateCopy,
         products: [
           ...productsStateCopy.products.filter(
-            (item) => item.sellingPrice <= action.payload.price
+            (item) => item.sellingPrice <= productsStateCopy.maxPrice
           ),
         ],
       };
